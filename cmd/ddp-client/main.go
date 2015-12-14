@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/cycoresystems/ddpd/client"
+	"github.com/cycoresystems/ddp/client"
 )
 
 func main() {

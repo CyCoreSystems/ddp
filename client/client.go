@@ -23,7 +23,7 @@ type Client struct {
 func NewClient(url string) *Client {
 	cl := &Client{
 		url: url,
-		Log: log.New("pkg", "ddpd/client"),
+		Log: log.New("pkg", "ddp/client"),
 	}
 
 	cl.ctx, cl.closeFn = context.WithCancel(context.Background())

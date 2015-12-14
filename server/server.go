@@ -22,7 +22,7 @@ type Server struct {
 // NewServer creates a new server listening on the given address:port pair
 func NewServer(listen string) *Server {
 	s := &Server{
-		Log:    log.New("pkg", "ddpd/server"),
+		Log:    log.New("pkg", "ddp/server"),
 		listen: listen,
 		url:    "/websocket",
 	}
