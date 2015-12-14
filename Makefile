@@ -1,5 +1,6 @@
 all: build
 
 build:
-	go build ./cmd/ddpd/
-	go build ./cmd/ddpc/
+	mkdir -p bin/
+	go build -o bin/ddpd ./cmd/ddpd/
+	go build -o bin/ddpc ./cmd/ddpc/
