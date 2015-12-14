@@ -33,7 +33,8 @@ func NewServer(listen string) *Server {
 // Run runs the server
 func (s *Server) Run() error {
 	s.Log.Debug("Running DDP server", "listen", s.listen)
-	http.Handle(s.url, websocket.Handler(s.handler))
+	s.server = &websocket.Server{Handler: s.handler, Handshake: nil}
+	http.Handle(s.url, s.server)
 	err := http.ListenAndServe(s.listen, nil)
 	return err
 }

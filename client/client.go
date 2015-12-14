@@ -11,6 +11,9 @@ import (
 type Client struct {
 	Log log.Logger
 
+	// ID of the session
+	SessionID string
+
 	url string
 
 	conn *websocket.Conn
@@ -41,6 +44,14 @@ func (c *Client) Run() error {
 		return err
 	}
 	c.conn = conn
+
+	c.connect()
+
+	// launch command router
+	go c.router()
+
+	// send initial ping
+	c.ping()
 
 	c.Log.Debug("Waiting for DDP client to stop")
 	<-c.ctx.Done()
