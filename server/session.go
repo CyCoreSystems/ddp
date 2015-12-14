@@ -3,6 +3,7 @@ package server
 import (
 	log "gopkg.in/inconshreveable/log15.v2"
 
+	"golang.org/x/net/context"
 	"golang.org/x/net/websocket"
 )
 
@@ -12,5 +13,6 @@ type Session struct {
 
 	ID string
 
-	conn *websocket.Conn
+	methodHandlerCtx context.Context
+	conn             *websocket.Conn
 }

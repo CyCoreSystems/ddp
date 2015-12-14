@@ -25,9 +25,10 @@ func (s *Server) handler(ws *websocket.Conn) {
 	websocket.JSON.Send(ws, connected)
 
 	session := &Session{
-		Log:  s.Log.New("session", "1"), //TODO: use previous ID
-		ID:   "1",                       //TODO: use previous ID
-		conn: ws,
+		Log:              s.Log.New("session", "1"), //TODO: use previous ID
+		ID:               "1",                       //TODO: use previous ID
+		conn:             ws,
+		methodHandlerCtx: context.Background(),
 	}
 
 	session.router()
@@ -39,6 +40,8 @@ func (s *Session) router() {
 	ctx = ddp.RegisterHandler(ctx, "ping", s.pingHandler)
 	ctx = ddp.RegisterHandler(ctx, "pong", s.pongHandler)
 	ctx = ddp.RegisterHandler(ctx, "method", s.methodHandler)
+
+	s.RegisterMethod("hello", s.helloRpcHandler)
 
 	s.ping()
 
