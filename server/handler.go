@@ -38,11 +38,12 @@ func (s *Session) router() {
 	ctx := context.Background()
 	ctx = ddp.RegisterHandler(ctx, "ping", s.pingHandler)
 	ctx = ddp.RegisterHandler(ctx, "pong", s.pongHandler)
+	ctx = ddp.RegisterHandler(ctx, "method", s.methodHandler)
 
 	s.ping()
 
 	for {
-		var msg ddp.Message
+		msg := make(ddp.Message)
 		if err := websocket.JSON.Receive(s.conn, &msg); err != nil {
 			if err == io.EOF { // End of Connection?
 				continue
@@ -51,11 +52,14 @@ func (s *Session) router() {
 			continue
 		}
 
-		if msg.Type == "" {
+		s.Log.Debug("Got message", "msg", msg)
+
+		t := msg.Type()
+		if t == "" {
 			continue
 		}
 
-		if err := ddp.CallHandler(ctx, msg.Type, &msg); err != nil {
+		if err := ddp.CallHandler(ctx, t, msg); err != nil {
 
 			//TODO: respond with error
 

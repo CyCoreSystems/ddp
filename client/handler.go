@@ -16,7 +16,7 @@ func (s *Client) router() {
 	ctx = ddp.RegisterHandler(ctx, "pong", s.pongHandler)
 
 	for {
-		var msg ddp.Message
+		msg := make(ddp.Message)
 		if err := websocket.JSON.Receive(s.conn, &msg); err != nil {
 
 			if err == io.EOF {
@@ -27,11 +27,12 @@ func (s *Client) router() {
 			continue
 		}
 
-		if msg.Type == "" {
+		t := msg.Type()
+		if t == "" {
 			continue
 		}
 
-		if err := ddp.CallHandler(ctx, msg.Type, &msg); err != nil {
+		if err := ddp.CallHandler(ctx, t, msg); err != nil {
 
 			//TODO: respond with error
 

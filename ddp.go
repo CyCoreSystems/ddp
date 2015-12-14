@@ -1,20 +1,30 @@
 package ddp
 
-type Connect struct {
-	Session string   `json:"session"`
-	Version string   `json:"version"`
-	Support []string `json:"support"`
+// core structures
+
+type Message map[string]interface{}
+
+func NewMessage(t string, id string) Message {
+	msg := make(Message)
+	msg["msg"] = t
+	msg["id"] = id
+	return msg
 }
 
-type Connected struct {
-	Session string `json:"session"`
+func (m Message) ID() string {
+	s, _ := m["id"].(string)
+	return s
 }
 
-type ConnectFailed struct {
-	Version string `json:"version"`
+func (m Message) Type() string {
+	s, _ := m["msg"].(string)
+	return s
 }
 
-type Message struct {
-	ID   string `json:"id"`
-	Type string `json:"msg"`
+type Error struct {
+	Error   string `json:"error"`
+	Reason  string `json:"reason"`
+	Details string `json:"details"`
+
+	OffendingMessage string `json:"offendingMessage"`
 }

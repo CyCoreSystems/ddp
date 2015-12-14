@@ -6,4 +6,4 @@ import (
 
 //go:generate genrouter -type context -fntype Handler -keytype string .
 
-type Handler func(ctx context.Context, msg *Message) error
+type Handler func(ctx context.Context, msg Message) error

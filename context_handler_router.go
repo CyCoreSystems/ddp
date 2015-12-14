@@ -17,7 +17,7 @@ func RegisterHandler(ctx context.Context, key string, val Handler) context.Conte
 	return context.WithValue(ctx, handlerRouterKey, mp)
 }
 
-func CallHandler(ctx context.Context, key string, msg *Message) error {
+func CallHandler(ctx context.Context, key string, msg Message) error {
 	r, ok := handlerfromContext(ctx, key)
 	if !ok {
 		return errors.New("Can't find route")
